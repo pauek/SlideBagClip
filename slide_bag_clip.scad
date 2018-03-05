@@ -79,7 +79,7 @@ module clip(length, width, thickness, space) {
 }
 
 clip(
-    length    = 150, 
+    length    = 20,
     width     = 11.5, 
     thickness = 1.4,
     space     = 1.2
