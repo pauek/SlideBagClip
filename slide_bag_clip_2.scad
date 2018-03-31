@@ -32,10 +32,13 @@ module hollow_rod(length, width, radius, thickness, skew) {
     difference() {
         rod(length + radius, width, radius, skew);
         translate([thickness*2, 0, 0]) 
-            rod(length + radius, width - thickness*2, radius - thickness, 0, skew);
+            rod(length + radius, width - thickness*2, radius - thickness, 0, skew*3);
         translate([length - radius + 0.1, 0, 0])
             rotate([0, 0, 180])
-                rod(6, width + 2, radius, 6, skew + 0.5);
+                rod(6, width + 2, radius, 8, skew + 55.5);
+       translate([length - radius - 10, 0, -0.1])
+            rotate([0, 0, 180])
+                rod(7, width + 2, 0, 25, skew + 55.5);
     }
 }
 
@@ -43,30 +46,23 @@ module clip(length, width, radius, thickness, space, skew = 0) {
    outer_width = width;
    inner_width = width - space*2 - thickness*2;
    inner_radius = radius - thickness - space;
-   zcut = (width/2 + skew - thickness - space - inner_radius);
+   zcut = (width/2 + skew*3.5 - thickness - space - inner_radius);
    support_size = 0.2;
    
-   // Este cubo es para forzar el material de soporte justo debajo
-   // de la parte que se despega normalmente (los laterales del tubo exterior)
-   module support() {
-      translate([length - width/2, -width/2, - zcut - 2 + support_size])
-         rotate([0, 0, 0]) 
-             translate([-width, 0, 0]) cube([width*1.5, width, 2]);
+   module stickers() {
+      thickness = 0.2;
+      separation = 3.87;
+      translate([length - width*1.87, separation, -zcut])
+         cube([width, width/3, thickness]);
+      translate([length - width*1.87, -separation - width/3, -zcut])
+         cube([width, width/3, thickness]);
    }
 
    difference() {
       union() {
-         difference() {
-            union() {
-               hollow_rod(length - 4, outer_width, radius, thickness, skew);
-               rod(length, inner_width, radius - space*2, inner_width, skew);
-            }
-            minkowski() {
-               support();
-               cube([.4, .4, .4], center = true);
-            }
-         }
-         translate([-1, 0, 0]) support();
+         hollow_rod(length - 4, outer_width, radius, thickness, skew);
+         rod(length, inner_width, radius - space*2, inner_width, skew);
+         stickers();
       }
       translate([-1, -width, - width - zcut])
          cube([length + width*2, width*2, width]);
@@ -76,8 +72,8 @@ module clip(length, width, radius, thickness, space, skew = 0) {
 clip(
     length = 210,
     width = 11.0,
-    radius = 2.7,
+    radius = 3.5,
     thickness = 1.5,
-    space = 1.2,
+    space = 1.1,
     skew = 0.3
 );
