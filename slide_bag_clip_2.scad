@@ -32,11 +32,11 @@ module hollow_rod(length, width, radius, thickness, skew) {
     difference() {
         rod(length + radius, width, radius, skew);
         translate([thickness*2, 0, 0]) 
-            rod(length + radius, width - thickness*2, radius - thickness, 0, skew*3);
+            rod(length + radius, width - thickness*2, radius - thickness, 0, skew*1);
         translate([length - radius + 0.1, 0, 0])
             rotate([0, 0, 180])
-                rod(6, width + 2, radius, 6, skew + 5.5);
-       translate([length - radius - 12.5, 0, -0.1])
+                rod(6, width + 2, radius, 6, skew + 15.5);
+       translate([length - radius - 12, 0, -0.1])
             rotate([0, 0, 180])
                 rod(7, width + 2, 1, 30, skew + 15.5);
     }
@@ -46,17 +46,21 @@ module clip(length, width, radius, thickness, space, skew = 0) {
    outer_width = width;
    inner_width = width - space*2 - thickness*2;
    inner_radius = radius - thickness - space;
-   zcut = (width/2 - 0.2 - thickness - space - inner_radius);
+   zcut = (width/2 + 0.2 - thickness - space - inner_radius);
    support_size = 0.2;
    
    module stickers() {
       thickness = 0.2;
-      separation = 4.0;
-      dist_factor = 1.75;
+      separation = 3.7;
+      dist_factor = 1.8551;
+      W = width/6;
+      WW = width/7.5;
       translate([length - width*dist_factor, separation, -zcut])
-         cube([width, width/3, thickness]);
-      translate([length - width*dist_factor, -separation - width/3, -zcut])
-         cube([width, width/3, thickness]);
+         cube([width, W, thickness]);
+      translate([length - width*dist_factor, -separation - W, -zcut])
+         cube([width, W, thickness]);
+      translate([length - 6.4, -WW/2, -zcut]) 
+         cube([5, WW, thickness]);
    }
 
    difference() {
@@ -73,8 +77,8 @@ module clip(length, width, radius, thickness, space, skew = 0) {
 clip(
     length = 210,
     width = 11.0,
-    radius = 2.7,
+    radius = 2.8,
     thickness = 1.5,
     space = 1.1,
-    skew = 0.3
+    skew = 0.25
 );
