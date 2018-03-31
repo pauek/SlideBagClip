@@ -35,10 +35,10 @@ module hollow_rod(length, width, radius, thickness, skew) {
             rod(length + radius, width - thickness*2, radius - thickness, 0, skew*3);
         translate([length - radius + 0.1, 0, 0])
             rotate([0, 0, 180])
-                rod(6, width + 2, radius, 8, skew + 55.5);
-       translate([length - radius - 10, 0, -0.1])
+                rod(6, width + 2, radius, 6, skew + 5.5);
+       translate([length - radius - 12.5, 0, -0.1])
             rotate([0, 0, 180])
-                rod(7, width + 2, 0, 25, skew + 55.5);
+                rod(7, width + 2, 1, 30, skew + 15.5);
     }
 }
 
@@ -46,15 +46,16 @@ module clip(length, width, radius, thickness, space, skew = 0) {
    outer_width = width;
    inner_width = width - space*2 - thickness*2;
    inner_radius = radius - thickness - space;
-   zcut = (width/2 + skew*3.5 - thickness - space - inner_radius);
+   zcut = (width/2 - 0.2 - thickness - space - inner_radius);
    support_size = 0.2;
    
    module stickers() {
       thickness = 0.2;
-      separation = 3.87;
-      translate([length - width*1.87, separation, -zcut])
+      separation = 4.0;
+      dist_factor = 1.75;
+      translate([length - width*dist_factor, separation, -zcut])
          cube([width, width/3, thickness]);
-      translate([length - width*1.87, -separation - width/3, -zcut])
+      translate([length - width*dist_factor, -separation - width/3, -zcut])
          cube([width, width/3, thickness]);
    }
 
@@ -72,7 +73,7 @@ module clip(length, width, radius, thickness, space, skew = 0) {
 clip(
     length = 210,
     width = 11.0,
-    radius = 3.5,
+    radius = 2.7,
     thickness = 1.5,
     space = 1.1,
     skew = 0.3
