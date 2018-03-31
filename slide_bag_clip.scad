@@ -53,14 +53,14 @@ module clip(length, width, radius, thickness, space, skew = 0) {
       thickness = 0.2;
       separation = 3.7;
       dist_factor = 1.8551;
-      W = width/6;
+      W = width/3;
       WW = width/7.5;
       translate([length - width*dist_factor, separation, -zcut])
          cube([width, W, thickness]);
       translate([length - width*dist_factor, -separation - W, -zcut])
          cube([width, W, thickness]);
       translate([length - 6.4, -WW/2, -zcut]) 
-         cube([5, WW, thickness]);
+         cube([10, WW, thickness]);
    }
 
    difference() {
@@ -75,7 +75,7 @@ module clip(length, width, radius, thickness, space, skew = 0) {
 }
 
 clip(
-    length = 210,
+    length = 245,
     width = 11.0,
     radius = 2.8,
     thickness = 1.5,
